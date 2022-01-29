@@ -1,0 +1,21 @@
+name: Build-PhysX-4.1
+on:
+  workflow_dispatch:
+
+jobs:
+  Build-PhysX-MacOS:
+    runs-on: macos-10.15
+    steps:
+      - name: Clone PhysX 4.1
+        run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
+      - name: Generate xcode project
+        working-directory: ./PhysX/physx
+        run: echo 1 | generate_projects.sh
+      - name: Build PhysX Checked
+        working-directory: ./PhysX/physx/compiler/mac64
+        run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration checked
+      - name: Upload libraries to GitHub Actions Artifacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: physx-libs-macos-x64
+          path: ./PhysX/physx/bin/mac.x86_64/checked/
