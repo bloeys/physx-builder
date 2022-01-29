@@ -10,7 +10,7 @@ jobs:
         run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
       - name: Generate xcode project
         working-directory: ./PhysX/physx
-        run: echo 1 | generate_projects.sh
+        run: echo 1 | ./generate_projects.sh
       - name: Build PhysX Checked
         working-directory: ./PhysX/physx/compiler/mac64
         run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration checked
