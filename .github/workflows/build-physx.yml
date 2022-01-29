@@ -10,7 +10,7 @@ jobs:
         run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
       - name: Copy fixed CMakeLists
         #Added: -Wno-alloca
-        run: cp ./macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
+        run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
       - name: Check Cmake
         run: cat ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
       - name: Generate xcode project
