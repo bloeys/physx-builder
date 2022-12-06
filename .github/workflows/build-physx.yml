@@ -10,7 +10,8 @@ jobs:
       - name: Clone PhysX 4.1
         run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
       
-      # Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
+      # Added: '-Wno-alloca', '-Wno-anon-enum-enum-conversion'
+      # Removed: '-Werror' because it crashes on macos-12
       - name: Copy fixed CMakeLists
         run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
 
