@@ -3,22 +3,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build-PhysX-MacOS:
-    runs-on: macos-10.15
+  Build-PhysX-MacOS-Checked:
+    runs-on: macos-12
     steps:
+      
       - name: Clone PhysX 4.1
         run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
+      
       - name: Copy fixed CMakeLists
         #Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
         run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
-      - name: Check Cmake
-        run: cat ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
+      
+      # - name: Check Cmake
+      #   run: cat ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
+      
       - name: Generate xcode project
         working-directory: ./PhysX/physx
-        run: echo 1 | ./generate_projects.sh
+        run: echo 3 | ./generate_projects.sh
+      
       - name: Build PhysX Checked
         working-directory: ./PhysX/physx/compiler/mac64
         run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration checked
+      
       - name: Upload libraries to GitHub Actions Artifacts
         uses: actions/upload-artifact@v2
         with: 
