@@ -10,17 +10,17 @@ jobs:
       - name: Clone PhysX 4.1
         run: git clone -b 4.1 https://github.com/NVIDIAGameWorks/PhysX
       
+      # Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
       - name: Copy fixed CMakeLists
-        #Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
         run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
+
+      - name: Disable building snippets
+        run: cp ./physx-builder/mac64.xml ./PhysX/physx/buildtools/presets/public/mac64.xml
       
       - name: Generate xcode project
         working-directory: ./PhysX/physx
-        run: ./generate_projects.sh mac64 #'mac64' is from the buildtools/presets folder
+        run: ./generate_projects.sh mac64 # 'mac64' is from the buildtools/presets folder
       
-      - name: Check compiler folder 2
-        run: ls -al ./PhysX/physx/compiler/mac64
-
       - name: Build PhysX Checked
         working-directory: ./PhysX/physx/compiler/mac64
         run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration checked
