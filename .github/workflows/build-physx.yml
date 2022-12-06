@@ -4,7 +4,7 @@ on:
 
 jobs:
   Build-PhysX-MacOS-Checked:
-    runs-on: macos-12
+    runs-on: macos-10.15
     steps:
       
       - name: Clone PhysX 4.1
@@ -14,15 +14,12 @@ jobs:
         #Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
         run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
       
-      - name: Check compiler folder 1
-        run: ls -al ./PhysX/physx/compiler/
-
       - name: Generate xcode project
         working-directory: ./PhysX/physx
         run: ./generate_projects.sh mac64 #'mac64' is from the buildtools/presets folder
       
       - name: Check compiler folder 2
-        run: ls -al ./PhysX/physx/compiler/
+        run: ls -al ./PhysX/physx/compiler/mac64
 
       - name: Build PhysX Checked
         working-directory: ./PhysX/physx/compiler/mac64
