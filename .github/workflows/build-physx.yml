@@ -14,19 +14,32 @@ jobs:
         #Added: -Wno-alloca and -Wno-anon-enum-enum-conversion
         run: git clone https://github.com/bloeys/physx-builder && cp ./physx-builder/macCMakeLists.txt ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
       
-      # - name: Check Cmake
-      #   run: cat ./PhysX/physx/source/compiler/cmake/mac/CMakeLists.txt
-      
+      - name: Check compiler folder 1
+        run: ls -al ./PhysX/physx/compiler/
+
       - name: Generate xcode project
         working-directory: ./PhysX/physx
         run: echo 3 | ./generate_projects.sh
       
+      - name: Check compiler folder 2
+        run: ls -al ./PhysX/physx/compiler/
+
       - name: Build PhysX Checked
         working-directory: ./PhysX/physx/compiler/mac64
         run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration checked
       
-      - name: Upload libraries to GitHub Actions Artifacts
-        uses: actions/upload-artifact@v2
+      - name: Upload Checked artifacts
+        uses: actions/upload-artifact@v3
         with: 
-          name: physx-libs-macos-x64
+          name: physx-libs-macos-x64-checked
           path: ./PhysX/physx/bin/mac.x86_64/checked/
+
+      - name: Build PhysX Release
+        working-directory: ./PhysX/physx/compiler/mac64
+        run: xcodebuild -project PhysXSDK.xcodeproj -alltargets -configuration release
+
+      - name: Upload Release artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: physx-libs-macos-x64-release
+          path: ./PhysX/physx/bin/mac.x86_64/release/
