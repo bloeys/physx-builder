@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate xcode project
         working-directory: ./PhysX/physx
-        run: echo 3 | ./generate_projects.sh
+        run: ./generate_projects.sh mac64 #'mac64' is from the buildtools/presets folder
       
       - name: Check compiler folder 2
         run: ls -al ./PhysX/physx/compiler/
